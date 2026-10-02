@@ -1,0 +1,28 @@
+class Solution:
+    def findSecretWord(self, words, master):
+        for _ in range(30):
+            best = words[0]
+            best_score = float('inf')
+
+            for w in words:
+                count = [0] * 7
+
+                for v in words:
+                    match = sum(a == b for a, b in zip(w, v))
+                    count[match] += 1
+
+                score = max(count)
+
+                if score < best_score:
+                    best_score = score
+                    best = w
+
+            res = master.guess(best)
+
+            if res == 6:
+                return
+
+            words = [
+                w for w in words
+                if sum(a == b for a, b in zip(w, best)) == res
+            ]
