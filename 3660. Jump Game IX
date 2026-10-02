@@ -1,0 +1,24 @@
+class Solution:
+    def maxValue(self, nums):
+        n = len(nums)
+        suffix = [0] * n
+        suffix[-1] = nums[-1]
+
+        for i in range(n - 2, -1, -1):
+            suffix[i] = min(nums[i], suffix[i + 1])
+
+        ans = [0] * n
+        start = 0
+        mx = nums[0]
+
+        for i in range(n):
+            mx = max(mx, nums[i])
+
+            if i == n - 1 or mx <= suffix[i + 1]:
+                for j in range(start, i + 1):
+                    ans[j] = mx
+                start = i + 1
+                if start < n:
+                    mx = nums[start]
+
+        return ans
