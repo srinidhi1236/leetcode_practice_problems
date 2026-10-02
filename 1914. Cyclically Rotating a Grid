@@ -1,0 +1,26 @@
+class Solution:
+    def rotateGrid(self, grid, k):
+        m, n = len(grid), len(grid[0])
+
+        for layer in range(min(m, n) // 2):
+            cells = []
+
+            top, left = layer, layer
+            bottom, right = m - 1 - layer, n - 1 - layer
+
+            for j in range(left, right + 1):
+                cells.append((top, j))
+            for i in range(top + 1, bottom + 1):
+                cells.append((i, right))
+            for j in range(right - 1, left - 1, -1):
+                cells.append((bottom, j))
+            for i in range(bottom - 1, top, -1):
+                cells.append((i, left))
+
+            values = [grid[i][j] for i, j in cells]
+            shift = k % len(values)
+
+            for idx, (i, j) in enumerate(cells):
+                grid[i][j] = values[(idx + shift) % len(values)]
+
+        return grid
